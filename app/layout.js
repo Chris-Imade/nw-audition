@@ -4,16 +4,16 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Nollywood Auditions - Join the Actors Guild of Nigeria",
+  title: "Nollywood Auditions - Registration currently on going",
   description: "Showcase your talent and become Nollywood's next star! Join the 2025/2026 auditions and train with industry experts.",
   openGraph: {
-    title: "Nollywood Auditions - Join the Actors Guild of Nigeria",
+    title: "Nollywood Auditions - Registration currently on going",
     description: "Showcase your talent and become Nollywood's next star! Join the 2025/2026 auditions and train with industry experts.",
     url: "https://nw-audition.vercel.app/", // Replace with your actual URL
     siteName: "Nollywood Auditions",
     images: [
       {
-        url: "https://nw-audition.vercel.app/assets/nw-au.jpg", // Replace with your actual OG image URL
+        url: "https://nw-audition.vercel.app/assets/nw-au.png", // Replace with your actual OG image URL
         width: 1200,
         height: 630,
         alt: "Nollywood Auditions",

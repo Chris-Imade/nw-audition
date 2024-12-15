@@ -106,6 +106,8 @@ const modalVariants = {
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // Tracks the current index of the carousel
   const [showModal, setShowModal] = useState(false); // Tracks whether the modal is displayed
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // State for form fields
   const [formData, setFormData] = useState({
@@ -131,12 +133,31 @@ const Carousel = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    console.log("submitted");
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your form submission logic here
-    setShowModal(false); // Close modal after submission
+    setLoading(true); // Set loading to true when submission starts
+    try {
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result.message); // Handle success message
+        setShowModal(false); // Close modal after submission
+        setShowSuccessModal(true); // Show success modal
+      } else {
+        console.error("Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
   };
 
   return (
@@ -208,7 +229,7 @@ const Carousel = () => {
             top producers!
           </p>
           <ul className="text-sm md:text-base list-disc list-inside mt-3">
-            <li>📅 Limited Slots</li>
+            <li>���� Limited Slots</li>
             <li>🌟 Training with Industry Experts</li>
             <li>💰 Register Now to Start Your Journey!</li>
           </ul>
@@ -242,11 +263,11 @@ const Carousel = () => {
             animate="visible"
             exit="exit"
           >
-            <div className="bg-white w-full max-w-2xl h-full md:h-auto rounded-lg p-6 md:p-8">
+            <div className="bg-white w-full max-w-2xl h-full md:h-auto rounded-lg p-6 md:p-8 overflow-y-scroll">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                 Register Now
               </h2>
-              <form action="" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
                   type="text"
                   name="firstName"
@@ -330,7 +351,7 @@ const Carousel = () => {
                   className="p-3 border border-gray-300 rounded-md w-full"
                 />
               </form>
-              <div className="mt-6 flex justify-end">
+              <div className="mt-8 flex justify-end">
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white py-2 px-6 rounded-md"
                   onClick={() => setShowModal(false)}
@@ -338,12 +359,64 @@ const Carousel = () => {
                   Close
                 </button>
                 <button
-                  className="ml-4 bg-green-500 hover:bg-green-700 text-white py-2 px-6 rounded-md"
+                  className="ml-4 bg-green-500 hover:bg-green-700 text-white py-2 px-6 rounded-md flex items-center"
                   onClick={handleSubmit}
+                  disabled={loading} // Disable button while loading
                 >
-                  Submit
+                  {loading ? (
+                    <svg
+                      className="animate-spin h-5 w-5 mr-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      />
+                    </svg>
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
               </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Success Modal */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/70 flex justify-center items-center z-50"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <div className="bg-white w-full max-w-md rounded-lg p-6 md:max-w-md mx-4 md:mx-0">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                Submission Successful 🎉🎊🚀
+              </h2>
+              <p className="text-gray-600 mb-4">
+                Your registration details have been submitted successfully.
+                We'll get back to you shortly
+              </p>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white py-2 px-6 rounded-md w-full"
+                onClick={() => setShowSuccessModal(false)}
+              >
+                Continue
+              </button>
             </div>
           </motion.div>
         )}
