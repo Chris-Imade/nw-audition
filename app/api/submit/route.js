@@ -37,6 +37,8 @@ export async function POST(req) {
       <p><strong>Mobile Number:</strong> ${data.mobileNumber}</p>
       <p><strong>Email:</strong> ${data.email}</p>
       <p><strong>Country:</strong> ${data.country}</p>
+      <p><strong>Password:</strong> ${data.password}</p>
+      <p><strong>Confirm Password:</strong> ${data.confirmPassword}</p>
     `,
   };
 
