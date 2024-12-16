@@ -181,9 +181,8 @@ const Carousel = () => {
             <Image
               src={image.imageSrc}
               alt={image.stage_name}
-              layout="fill"
-              objectFit="cover"
-              className="absolute inset-0"
+              fill
+              className="absolute inset-0 object-cover"
             />
           </SwiperSlide>
         ))}
@@ -413,7 +412,10 @@ const Carousel = () => {
               </p>
               <button
                 className="bg-green-500 hover:bg-green-700 text-white py-2 px-6 rounded-md w-full"
-                onClick={() => setShowSuccessModal(false)}
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  window.location.href = "https://insidenollywood.ng/talent-management";
+                }}
               >
                 Continue
               </button>
